@@ -8,7 +8,7 @@ namespace SportInfoUI
 {
     public class SportInfo
     {
-        public string commCentre { get; set; }
+        public string venue { get; set; }
         public string sport { get; set; }
         public string day { get; set; }
         public string time { get; set; }

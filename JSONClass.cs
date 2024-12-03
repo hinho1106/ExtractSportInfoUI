@@ -23,7 +23,7 @@ namespace SportInfoUI
         public int objectid_1 { get; set; }
         public int? objectid { get; set; }
         public int locationid { get; set; }
-        public int facility_master_id { get; set; }
+        public int? facility_master_id { get; set; }
         public string? complexname { get; set; }
         public string? address { get; set; }
         public string? website { get; set; }
@@ -35,6 +35,13 @@ namespace SportInfoUI
         public double x { get; set; }
         public double y { get; set; }
         public string? globalid { get; set; }
+        public string location { get; set; }
+        public string amenities { get; set; }
+        public object operational_hours { get; set; }
+        public object funguide_url { get; set; }
+        public string show_on_map { get; set; }
+        public object dropins { get; set; }
+        public string activity_type { get; set; }
     }
 
     public class Feature
@@ -72,7 +79,7 @@ namespace SportInfoUI
         public bool? isSystemMaintained { get; set; }
     }
 
-    //JSON format for particular sport info of a comm centre
+    //JSON format for particular sport info of a comm centre/ Ice location
     public class Day
     {
         public int id { get; set; }

@@ -39,9 +39,14 @@ namespace SportInfoUI
                 MessageBox.Show("Please select week");
                 isValidated = false;
             }
-            else if (DayComboBox.SelectedIndex == -1) 
+            else if (DayComboBox.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select day");
+                isValidated = false;
+            }
+            else if (DropInTypeComboBox.SelectedIndex == -1) 
+            {
+                MessageBox.Show("Please select Sport Type");
                 isValidated = false;
             }
 
@@ -83,8 +88,12 @@ namespace SportInfoUI
                 string week = WeekComboBox.Text;
                 string day = DayComboBox.Text;
                 string excludedAges = ExcludedAgeTextBox.Text;
-                string excludedWords = ExcludedAgeTextBox.Text;
-                List<SportInfo> infoTable = await DataHandler.processInput(sport, week, day, excludedAges, excludedWords);
+                string excludedWords = ExcludedWordTextBox.Text;
+                string sportType = DropInTypeComboBox.Text;
+
+                List<SportInfo> infoTable = new List<SportInfo>();
+                infoTable = await DataHandler.processSportInput(sport, week, day, excludedAges, excludedWords, sportType);
+                
 
                 //Print all info on DataGrid Table
 

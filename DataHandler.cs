@@ -11,15 +11,25 @@ namespace SportInfoUI
     {
         
 
-        public static async Task<List<SportInfo>> processInput(string sport, string week, string day, string exAge, string exWord)
+        public static async Task<List<SportInfo>> processSportInput(string sport, string week, string day, string exAge, string exWord, string sportType)
         {
             //General variables
             bool controlFlag = true;
             List<SportInfo> infoTable = new List<SportInfo>();
             string[] exAges = exAge.Split(';');
-            string[] exWords = exAge.Split(";");
+            string[] exWords = exWord.Split(";");
 
-            string generalResponse = await HTTPHandler.GETGeneralResponse();
+            //Define Sport Type boolean control
+            bool isIce = false;
+            if (sportType.Equals("Ice"))
+                isIce = true;
+
+            string generalResponse;
+
+            if(isIce)
+                generalResponse = await HTTPHandler.GETIceSportGeneralResponse();
+            else
+                generalResponse = await HTTPHandler.GETNonIceSportGeneralResponse();
 
             RootObj rootObj;
 
@@ -34,25 +44,38 @@ namespace SportInfoUI
                 return infoTable;
             }
 
-            foreach (var commCentre in rootObj.features)
+            foreach (var venue in rootObj.features)
             {
                 List<string?> sportCat = new List<string?>();
-                //string? sportlist = commCentre.attributes.sports_activities_e_p;
-                sportCat.Add(commCentre.attributes.sports_activities_a_d);
-                sportCat.Add(commCentre.attributes.sports_activities_e_p);
-                sportCat.Add(commCentre.attributes.sports_activities_s_z);
+                string? venueName;
+                int id = venue.attributes.locationid;
+
+                if (isIce)
+                {
+                    sportCat.Add(venue.attributes.activity_type);
+                    venueName = venue.attributes.location;
+                }
+                else
+                {
+                    sportCat.Add(venue.attributes.sports_activities_a_d);
+                    sportCat.Add(venue.attributes.sports_activities_e_p);
+                    sportCat.Add(venue.attributes.sports_activities_s_z);
+                    venueName = venue.attributes.complexname;
+                }
                 
 
-                string? centreName = commCentre.attributes.complexname;
-                int id = commCentre.attributes.locationid;
 
                 foreach(string? sportlist in sportCat)
                 {
                     if (!string.IsNullOrEmpty(sportlist) ? sportlist.Contains(sport) : false)
                     {
 
+                        string info;
+                        if (isIce)
+                            info = await HTTPHandler.GETIceSportInfo(id, week);
+                        else
+                            info = await HTTPHandler.GETNonIceSportInfo(id, week);
 
-                        string info = await HTTPHandler.GETCommSportInfo(id, week);
 
                         RootPrograms? infoObj;
 
@@ -101,7 +124,7 @@ namespace SportInfoUI
                                             //commCentre, sportName, weekday, time
                                             infoTable.Add(new SportInfo()
                                             {
-                                                commCentre = centreName,
+                                                venue = venueName,
                                                 sport = program.title + " " + program.age,
                                                 day = time.day,
                                                 time = time.title
