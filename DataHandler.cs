@@ -48,7 +48,7 @@ namespace SportInfoUI
             {
                 List<string?> sportCat = new List<string?>();
                 string? venueName;
-                int id = venue.attributes.locationid;
+                int id = venue.attributes.locationid == null? 0 : (int)venue.attributes.locationid;
 
                 if (isIce)
                 {
@@ -71,11 +71,12 @@ namespace SportInfoUI
                     {
 
                         string info;
+                        
                         if (isIce)
                             info = await HTTPHandler.GETIceSportInfo(id, week);
                         else
                             info = await HTTPHandler.GETNonIceSportInfo(id, week);
-
+                        
 
                         RootPrograms? infoObj;
 

@@ -22,7 +22,7 @@ namespace SportInfoUI
     {
         public int objectid_1 { get; set; }
         public int? objectid { get; set; }
-        public int locationid { get; set; }
+        public int? locationid { get; set; }
         public int? facility_master_id { get; set; }
         public string? complexname { get; set; }
         public string? address { get; set; }
