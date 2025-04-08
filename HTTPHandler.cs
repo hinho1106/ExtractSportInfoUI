@@ -16,8 +16,7 @@ namespace SportInfoUI
         {
             HttpClient client = new HttpClient();
 
-            const string url = "https://services3.arcgis.com/b9WvedVPoizGfvfD/arcgis/rest/services/COT_Sports_DropIn_View/FeatureServer/0/query?f=json&where=show_on_sports_map%20=%20%27Yes%27&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=102100&resultOffset=0&resultRecordCount=4000";
-
+            const string url = "https://services3.arcgis.com/b9WvedVPoizGfvfD/arcgis/rest/services/COT_Sports_Drop_In_View/FeatureServer/0/query?f=json&where=show_on_sports_map%20=%20%27Yes%27&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=102100&resultOffset=0&resultRecordCount=4000";
             HttpResponseMessage response = await client.GetAsync(url);
 
 
@@ -55,7 +54,7 @@ namespace SportInfoUI
             }
             else
             {
-                MessageBox.Show("Request failed with status code: " + response.StatusCode);
+                //MessageBox.Show("Request failed with status code: " + response.StatusCode);
                 return "";
 
             }
